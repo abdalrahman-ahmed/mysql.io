@@ -1,6 +1,6 @@
 {
   "name": "@any.io/mysql.io",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MySQL.JS is a simple module to use mysql databases",
   "main": "index.js",
   "readmeFilename": "README.md",
