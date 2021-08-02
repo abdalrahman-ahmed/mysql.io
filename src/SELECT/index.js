@@ -58,9 +58,36 @@ module.exports = function SELECT(columns = Array){
         return {AND,OR,ORDER_BY,LIMIT,EXECUT}
     };
 
+    var ON = (conditions = Object) => {
+        var cols = Object.keys(conditions);
+        var cons = cols.reduce((r,i,x) => {
+            var and = x === (cols.length - 1) ? '' : 'AND ';
+            var val = isNaN(conditions[i]) && !/\./.test(conditions[i]) ? '\''+conditions[i]+'\'' : conditions[i];
+            r += [i,'=',val,and].join(' ');
+            return r;
+        },'');
+        cmd.push(`ON (${cons})`);
+        return {ORDER_BY,WHERE,LIMIT,EXECUT};
+    };
+
+    var INNER_JOIN = (table = String) => {
+        cmd.push(`INNER JOIN ${table}`);
+        return {ON,ORDER_BY,WHERE,LIMIT,EXECUT};
+    };
+    
+    var LEFT_JOIN = (table = String) => {
+        cmd.push(`LEFT JOIN ${table}`);
+        return {ON,ORDER_BY,WHERE,LIMIT,EXECUT};
+    };
+
+    var RIGHT_JOIN = (table = String) => {
+        cmd.push(`RIGHT JOIN ${table}`);
+        return {ON,ORDER_BY,WHERE,LIMIT,EXECUT};
+    };
+
     var FROM = (table = String) => {
         cmd.push(`FROM ${table}`);
-        return {ORDER_BY,WHERE,LIMIT,EXECUT};
+        return {INNER_JOIN,LEFT_JOIN,RIGHT_JOIN,ORDER_BY,WHERE,LIMIT,EXECUT};
     };
 
     return {FROM};
