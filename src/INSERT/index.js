@@ -6,7 +6,13 @@ module.exports = function INSERT(table = String){
     var SET = (columns = Object) => {
         var cols = Object.keys(columns);
         var set = cols.reduce((r,col) => {
-            var value = isNaN(columns[col]) ? '\''+columns[col]+'\'' : columns[col];
+            var value = ( !(columns[col] instanceof Number) && !/\./.test(columns[col]) ) ? 
+            '\''+columns[col]+'\''
+            :
+            (/\//.test(columns[col]) || /\@/.test(columns[col])) ? 
+                '\''+columns[col]+'\''
+                :
+                columns[col];
             var insert = [col,value].join(' = ');
             return [...r, insert];
         },[]).join(',');
@@ -17,7 +23,7 @@ module.exports = function INSERT(table = String){
     var VALUES = ({columns= Array, rows= Array}) => {
         var values = rows.reduce((r,row) => {
             var value = row.reduce((o,v) => {
-                var val = isNaN(v) ? '\''+v+'\'' : v;
+                var val = ((v instanceof String) && !/\./.test(v) || /\//.test(v) || /\@/.test(v)) ? '\''+v+'\'' : v;
                 return [...o, val];
             },[]).join(',');
             var insert = `(${value})`;

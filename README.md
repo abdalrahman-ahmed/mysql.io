@@ -2,7 +2,7 @@
 MySQL.IO is a simple module to use MySQL Databases
 
 ## Install
-```
+```bash
 npm i @any.io/mysql.io
 ```
 
@@ -17,7 +17,14 @@ var Database = new MySQL({
     "database" : "dbName", // String
 });
 ```
+#
 ### INSERT
+#### `Database.INSERT( table = `String` )` => `Object`
+<BR>
+
+##### Example
+</BR>
+
 ```javascript
 var INTO = 'table';
 var SET = {"column": 'value'};
@@ -31,8 +38,14 @@ if(!error){
     console.error('Error:', error);
 }
 ```
+#
+### SELECT 
+#### `Database.SELECT( columns = `Array` )` => `Object`
+<BR>
 
-### SELECT
+##### Example
+</BR>
+
 ```javascript
 var FROM = 'table';
 var COLOUMNS = ['*'];
@@ -46,8 +59,14 @@ if(!error){
     console.error('Error:', error);
 }
 ```
-
+#
 ### UPDATE
+#### `Database.UPDATE( table = `String` )` => `Object`
+<BR>
+
+##### Example
+</BR>
+
 ```javascript
 var TABLE = 'table';
 var SET = {"column": 'value'};
@@ -61,8 +80,22 @@ if(!error){
     console.error('Error:', error);
 }
 ```
-
+#
 ### DELETE
+#### `Database.UPDATE( table = `String` )` => `Object`
+#### `return {`WHERE`(condtions = `Object`),`EXECUT`()}`
+
+```JavaScript
+{
+    WHERE: (condtions = Object) => ({ EXECUT }),
+    EXECUT: () => ({ error, success, data })
+}
+```
+</BR>
+
+##### Example
+</BR>
+
 ```javascript
 var TABLE = 'table';
 var WHERE = {"column": 'value'};

@@ -1,27 +1,16 @@
 var syncMysql = require('sync-mysql');
-var { format, raw } = require('sqlstring');
+var sqlstring = require('sqlstring');
+var src       = require('./src');
 
-var {
-    SET,
-    INSERT,
-    SELECT,
-    UPDATE,
-    DELETE,
-    EXECUT
-} = require('./src');
+var funcs = {...src, ...sqlstring};
 
 class Database {
     constructor(config){
         this.connection = new syncMysql(config);
-        
-        this.format = format;
-        this.raw    = raw;
-        this.SET    = SET.bind(this);
-        this.EXECUT = EXECUT.bind(this);
-        this.SELECT = SELECT.bind(this);
-        this.INSERT = INSERT.bind(this);
-        this.UPDATE = UPDATE.bind(this);
-        this.DELETE = DELETE.bind(this);
+
+        Object.keys(funcs).forEach(func => {
+            this[func] = funcs[func].bind(this);
+        });
 
         this.SET().GLOBAL({group_concat_max_len:99999}).EXECUT();
     }
