@@ -3,9 +3,9 @@ module.exports = function SELECT(columns = Array){
     
     var EXECUT = () => this.EXECUT(cmd.join(' '));
 
-    var AND = (conditions = Object) => this.AND(conditions, cmd, {LIMIT,EXECUT});
+    var AND = (conditions = Object) => this.AND(conditions, cmd, {AND,OR,ORDER_BY,LIMIT,EXECUT});
     
-    var OR = (conditions = Object) => this.OR(conditions, cmd, {LIMIT,EXECUT});
+    var OR = (conditions = Object) => this.OR(conditions, cmd, {AND,OR,ORDER_BY,LIMIT,EXECUT});
     
     var LIMIT = (limit = Array) => this.LIMIT(limit, cmd, {EXECUT});
 
